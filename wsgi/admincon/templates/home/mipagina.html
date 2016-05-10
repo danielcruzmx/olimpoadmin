@@ -15,31 +15,33 @@
     <div class="container">
         <div class="header">
             <h3 class="text-muted"> VIGO </h3>
-            <nav class="navbar navbar-default">
-                <ul class="nav nav-pills pull-left">
-                    <li role="presentation"><a href="/"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-                        <li class="dropdown">
-                            <a href="/movtos" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                <i class="glyphicon glyphicon-transfer"></i> Movimientos
-                            </a>
-                            <ul class="dropdown-menu">
-                                    <li><a href="/movtos/bancos">Bancos</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="/movtos/cuotas">Cuotas</a></li>
-                            </ul>
-                        </li>
-                        <li role="presentation"><a href="/products"><i class="glyphicon glyphicon-print"></i> Reportes </a></li>
-                        <li role="presentation"><a href="/admin"><i class="glyphicon glyphicon-hdd"></i> Catalogos</a></li>
-                        <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    <i class="glyphicon glyphicon-user">Usuario</i>
+            {% if user.is_authenticated %}
+                <nav class="navbar navbar-default">
+                    <ul class="nav nav-pills pull-left">
+                        <li role="presentation"><a href="/"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
+                            <li class="dropdown">
+                                <a href="/movtos" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    <i class="glyphicon glyphicon-transfer"></i> Movimientos
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="accounts/logout/">Salir</a></li>
+                                        <li><a href="#">Bancos</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#"">Cuotas</a></li>
                                 </ul>
-                        </li>
-                </ul>
-            </nav>
+                            </li>
+                            <li role="presentation"><a href="#"><i class="glyphicon glyphicon-print"></i> Reportes </a></li>
+                            <li role="presentation"><a href="/admin"><i class="glyphicon glyphicon-hdd"></i> Catalogos</a></li>
+                            <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                        <i class="glyphicon glyphicon-user">Usuario</i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="accounts/logout/">Salir</a></li>
+                                    </ul>
+                            </li>
+                    </ul>
+                </nav>
+            {% endif %}
         </div>
 
 
