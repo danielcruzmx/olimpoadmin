@@ -28,7 +28,7 @@ SECRETS = secrets.getter(os.path.join(DATA_DIR, 'secrets.json'))
 SECRET_KEY = SECRETS['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG') == 'True'
+DEBUG = True
 
 from socket import gethostname
 ALLOWED_HOSTS = [
@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'main',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -58,15 +59,16 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 )
 
-# GETTING-STARTED: change 'myproject' to your project name:
-ROOT_URLCONF = 'myproject.urls'
+# GETTING-STARTED: change 'admincon' to your project name:
+ROOT_URLCONF = 'admincon.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR + '/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,7 +81,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'myproject.wsgi.application'
+WSGI_APPLICATION = 'admincon.wsgi.application'
 
 
 # Database
@@ -96,9 +98,9 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-MX'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Mexico_City'
 
 USE_I18N = True
 
@@ -111,4 +113,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(WSGI_DIR, 'static')
+#STATIC_ROOT = os.path.join(WSGI_DIR, 'static')
+STATICFILES_DIRS = (
+    os.path.join(WSGI_DIR,'static'),
+)

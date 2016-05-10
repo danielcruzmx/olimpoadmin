@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+ 		<title>CIEC</title>
+ 		<link rel="stylesheet" media="screen" href="/static/layout_def.css" type="text/css" />
+	</head>
+	<body>
+ 		<div id="cont">
+ 			<div id="head">
+ 				<h1>Administración de condominios, control de ingresos y egresos</h1>
+                <nav>
+                    <ul>
+                        <li><a href="/bancos/">Bancos<br>Movimientos</a></li>
+                        <li><a href="/movimientos/1/">Movimientos<br>&nbsp</a></li>
+                        <li><a href="/">Cuotas<br>&nbsp</a></li>
+                        <li><a href="/admin/">Administracion<br>&nbsp</a></li>
+                        <li><a href="/">Acerca de<br>&nbsp</a></li>
+                        <li><a href="/">Acerca de<br>&nbsp</a></li>
+                        <li><a href="/accounts/logout/">Salir<br>&nbsp</a></li>
+                    </ul>
+                </nav>
+ 			</div>
+
+            <div id="contenido">
+				{% block content %}{% endblock %}
+ 			</div>
+
+ 			<div id="foot">
+	 			<p>
+	 				<a href="mailto:danielcruzmx@hotmail.com"></a>
+	 			</p>
+ 			</div>
+ 		</div>
+	</body>
+</html>
