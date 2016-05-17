@@ -6,17 +6,27 @@ class Situacion(models.Model):
     situacion = models.CharField(max_length=25)
 
     def __str__(self):
-		return '%s' % (self.situacion)
+        return '%s' % (self.situacion)
 
     class Meta:
         managed = True
         db_table = 'situacion'
 
+class Servicio(models.Model):
+    descripcion = models.CharField(max_length=40)
+
+    def __str__(self):
+        return '%s' % (self.descripcion)
+
+    class Meta:
+        managed = True
+        db_table = 'servicio'
+
 class TipoMovimiento(models.Model):
     descripcion = models.CharField(max_length=25)
 
     def __str__(self):
-		return '%s' % (self.descripcion)
+        return '%s' % (self.descripcion)
 
     class Meta:
         managed = True
@@ -26,7 +36,7 @@ class TipoCuenta(models.Model):
     descripcion = models.CharField(max_length=45)
 
     def __str__(self):
-		return '%s' % (self.descripcion)
+        return '%s' % (self.descripcion)
 
     class Meta:
         managed = True
@@ -38,7 +48,7 @@ class TipoCuota(models.Model):
     monto_maximo = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
 
     def __str__(self):
-		return '%s' % (self.tipo)
+        return '%s' % (self.tipo)
 
     class Meta:
         managed = True
@@ -48,7 +58,7 @@ class Estacionamiento(models.Model):
     ubicacion = models.CharField(max_length=20)
 
     def __str__(self):
-		return '%s' % (self.ubicacion)
+        return '%s' % (self.ubicacion)
 
     class Meta:
         managed = True
@@ -59,7 +69,7 @@ class Banco(models.Model):
     descripcion = models.CharField(max_length=25, blank=True, null=True)
 
     def __str__(self):
-		return '%s %s' % (self.clave, self.descripcion)
+        return '%s %s' % (self.clave, self.descripcion)
 
     class Meta:
         managed = True
@@ -80,7 +90,7 @@ class Condominio(models.Model):
     fecha_constitucion = models.DateField(blank=True, null=True)
 
     def __str__(self):
-		return '%s' % (self.nombre)
+        return '%s' % (self.nombre)
 
     class Meta:
         managed = True
@@ -99,9 +109,12 @@ class Condomino(models.Model):
     condominio = models.ForeignKey(Condominio)
     estacionamiento = models.ManyToManyField(Estacionamiento)
     monto_cuota_mes = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    mes_pagado = models.CharField(max_length=30, blank=True, null=True)
+    monto_adeudo_cuotas = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    monto_adeudo_extras = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
     def __str__(self):
-		return '%s %s' % (self.depto, self.poseedor)
+        return '%s %s' % (self.depto, self.poseedor)
 
     class Meta:
         managed = True
@@ -120,7 +133,7 @@ class Cuenta(models.Model):
     tipo_cuenta = models.ForeignKey(TipoCuenta)
 
     def __str__(self):
-		return '%s %s' % (self.clabe, self.apoderado[:10])
+        return '%s %s' % (self.clabe, self.apoderado[:10])
 
     class Meta:
         managed = True
@@ -165,10 +178,23 @@ class Movimiento(models.Model):
     recibo = models.ManyToManyField(Recibo)
 
     def __str__(self):
-		return u'%d %s %d %s' % (self.id, self.fecha.strftime('%d/%m/%Y'), self.deposito, self.descripcion[:15])
+        return u'%d %s %d %s' % (self.id, self.fecha.strftime('%d/%m/%Y'), self.deposito, self.descripcion[:15])
 
     class Meta:
         managed = True
         db_table = 'movimiento'
         ordering = ['fecha']
+
+class Proveedore(models.Model):
+    proveedor =  models.CharField(max_length=60)
+    domicilio =  models.CharField(max_length=100, blank=True, null=True)
+    rfc = models.CharField(max_length=13, blank=True, null=True)
+    servicio = models.ManyToManyField(Servicio)
+
+    def __str__(self):
+        return '%s %s' % (self.rfc, self.proveedor)
+
+    class Meta:
+        managed = True
+        db_table = 'proveedore'
 
