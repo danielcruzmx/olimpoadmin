@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'admincon.wsgi.application'
 if ON_OPENSHIFT:
     DATABASES = {
     	'default': {
-        	'ENGINE': 'mysql.connector.django',
+        	'ENGINE': 'django.db.backends.mysql',
         	'NAME': os.environ['OPENSHIFT_APP_NAME'],
         	'USER': os.environ['OPENSHIFT_MYSQL_DB_USERNAME'],
         	'PASSWORD': os.environ['OPENSHIFT_MYSQL_DB_PASSWORD'],
