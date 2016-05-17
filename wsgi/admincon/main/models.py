@@ -12,6 +12,16 @@ class Situacion(models.Model):
         managed = True
         db_table = 'situacion'
 
+class TipoMovimiento(models.Model):
+    descripcion = models.CharField(max_length=25)
+
+    def __str__(self):
+		return '%s' % (self.descripcion)
+
+    class Meta:
+        managed = True
+        db_table = 'tipo_movimiento'
+
 class TipoCuenta(models.Model):
     descripcion = models.CharField(max_length=45)
 
@@ -36,6 +46,9 @@ class TipoCuota(models.Model):
 
 class Estacionamiento(models.Model):
     ubicacion = models.CharField(max_length=20)
+
+    def __str__(self):
+		return '%s' % (self.ubicacion)
 
     class Meta:
         managed = True
@@ -81,12 +94,14 @@ class Condomino(models.Model):
     email = models.CharField(max_length=25, blank=True, null=True)
     telefono = models.CharField(max_length=30, blank=True, null=True)
     fecha_escrituracion = models.DateField(blank=True, null=True)
+    fecha_ultimo_deposito = models.DateField(blank=True, null=True)
     referencia = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     condominio = models.ForeignKey(Condominio)
     estacionamiento = models.ManyToManyField(Estacionamiento)
+    monto_cuota_mes = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
     def __str__(self):
-		return '%s %s %s' % (self.depto, self.poseedor)
+		return '%s %s' % (self.depto, self.poseedor)
 
     class Meta:
         managed = True
@@ -140,12 +155,13 @@ class Recibo(models.Model):
         db_table = 'recibo'
 
 class Movimiento(models.Model):
+    cuenta = models.ForeignKey(Cuenta)
     fecha = models.DateField(blank=True, null=True)
+    tipo_movimiento = models.ForeignKey(TipoMovimiento, blank=True, null=True)
     descripcion = models.CharField(max_length=250, blank=True, null=True)
     retiro = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     deposito = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     saldo = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    cuenta = models.ForeignKey(Cuenta)
     recibo = models.ManyToManyField(Recibo)
 
     def __str__(self):

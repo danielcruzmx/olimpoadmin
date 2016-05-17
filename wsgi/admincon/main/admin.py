@@ -1,12 +1,19 @@
 from django.contrib import admin
 
 from django.contrib import admin
-from models import Banco, TipoCuenta, Movimiento, Condominio, Condomino, Cuenta, Estacionamiento
+from models import Banco, TipoCuenta, Movimiento, Condominio, Condomino, Cuenta, \
+                   Estacionamiento, TipoMovimiento, Situacion
 
 class BancoAdmin(admin.ModelAdmin):
 	list_display = ('clave','descripcion')
 
 class TipoCuentaAdmin(admin.ModelAdmin):
+	list_display = ('descripcion',)
+
+class SituacionAdmin(admin.ModelAdmin):
+	list_display = ('situacion',)
+
+class TipoMovimientoAdmin(admin.ModelAdmin):
 	list_display = ('descripcion',)
 
 class MovimientoAdmin(admin.ModelAdmin):
@@ -31,6 +38,8 @@ class EstacionamientoAdmin(admin.ModelAdmin):
 
 admin.site.register(Banco, BancoAdmin)
 admin.site.register(TipoCuenta, TipoCuentaAdmin)
+admin.site.register(TipoMovimiento, TipoMovimientoAdmin)
+admin.site.register(Situacion, SituacionAdmin)
 admin.site.register(Movimiento, MovimientoAdmin)
 admin.site.register(Condominio, CondominioAdmin)
 admin.site.register(Cuenta, CuentaAdmin)

@@ -1,0 +1,138 @@
+- model: main.Banco
+  pk: 1
+  fields:
+    clave: '002'
+    descripcion: 'BANAMEX'
+- model: main.Banco
+  pk: 2
+  fields:
+    clave: '012'
+    descripcion: 'BBVA BANCOMER'
+- model: main.Banco
+  pk: 3
+  fields:
+    clave: '021'
+    descripcion: 'HSBC'
+- model: main.Banco
+  pk: 4
+  fields:
+    clave: '014'
+    descripcion: 'SANTANDER'
+- model: main.Banco
+  pk: 5
+  fields:
+    clave: '072'
+    descripcion: 'BANORTE'
+
+
+- model: main.Situacion
+  pk: 1
+  fields:
+    situacion: 'CANCELADO'
+- model: main.Situacion
+  pk: 2
+  fields:
+    situacion: 'PAGADO'
+- model: main.Situacion
+  pk: 3
+  fields:
+    situacion: 'POR COBRAR'
+
+
+- model: main.TipoCuenta
+  pk: 1
+  fields:
+    descripcion: 'CHEQUES'
+- model: main.TipoCuenta
+  pk: 2
+  fields:
+    descripcion: 'EFECTIVO'
+- model: main.TipoCuenta
+  pk: 3
+  fields:
+    descripcion: 'DEBITO'
+- model: main.TipoCuenta
+  pk: 4
+  fields:
+    descripcion: 'INVERSION'
+
+
+- model: main.TipoMovimiento
+  pk: 1
+  fields:
+    descripcion: 'DEPOSITO EN EFECTIVO'
+- model: main.TipoMovimiento
+  pk: 2
+  fields:
+    descripcion: 'DEPOSITO SALVO BUEN COBRO'
+- model: main.TipoMovimiento
+  pk: 3
+  fields:
+    descripcion: 'PAGO CHEQUE'
+- model: main.TipoMovimiento
+  pk: 4
+  fields:
+    descripcion: 'RETIRO EFECTIVO VENTANILLA'
+- model: main.TipoMovimiento
+  pk: 5
+  fields:
+    descripcion: 'RETIRO EFECTIVO CAJERO'
+- model: main.TipoMovimiento
+  pk: 6
+  fields:
+    descripcion: 'DEPOSITO CUENTA TERCEROS'
+- model: main.TipoMovimiento
+  pk: 7
+  fields:
+    descripcion: 'SPEI'
+- model: main.TipoMovimiento
+  pk: 8
+  fields:
+    descripcion: 'TRANSFERENCIA'
+
+- model: main.Condominio
+  pk: 1
+  fields:
+    nombre: 'SADICARNOT'
+    calle: 'SADI CARNOT '
+    colonia: 'SAN RAFAEL'
+    delegacion: 'CUAUHTEMOC'
+    ciudad: 'MEXICO'
+    estado: 'CD MEXICO'
+    cp: '00000'
+    regimen: 'CONDOMINAL'
+- model: main.Condominio
+  pk: 2
+  fields:
+    nombre: 'TABACHINES'
+    calle: 'ARAGON '
+    colonia: 'ALAMOS'
+    delegacion: 'BENITO JUAREZ'
+    ciudad: 'MEXICO'
+    estado: 'CD MEXICO'
+    cp: '00000'
+    regimen: 'CONDOMINAL'
+- model: main.Condominio
+  pk: 3
+  fields:
+    nombre: 'COMONFORT'
+    calle: 'COMONFORT '
+    colonia: 'GUERRERO'
+    delegacion: 'CUAUHTEMOC'
+    ciudad: 'MEXICO'
+    estado: 'CD MEXICO'
+    cp: '00000'
+    regimen: 'CONDOMINAL'
+- model: main.Condominio
+  pk: 4
+  fields:
+    nombre: 'OLIMPO'
+    calle: 'CARRILLO PUERTO 34'
+    colonia: 'ANAHUAC II SEC'
+    delegacion: 'MIGUEL HIDALGO'
+    ciudad: 'MEXICO'
+    estado: 'CD MEXICO'
+    cp: '11320'
+    regimen: 'CONDOMINAL'
+
+
