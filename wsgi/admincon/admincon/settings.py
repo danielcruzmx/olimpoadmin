@@ -131,7 +131,7 @@ USE_TZ = True
 STATICFILES_DIRS = (
     os.path.join(WSGI_DIR,'static'),
 )
-STATIC_ROOT = os.path.join(WSGI_DIR, 'static')
+STATIC_ROOT = os.path.join(WSGI_DIR,'.', 'static')
 STATIC_URL = '/static/'
 
 
