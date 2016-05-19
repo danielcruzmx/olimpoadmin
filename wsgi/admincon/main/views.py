@@ -12,6 +12,16 @@ import os
 @login_required()
 def home(request):
      #print os.path.dirname(os.path.dirname(__file__))
+     #DJ_PROJECT_DIR = os.path.dirname(__file__)
+     #BASE_DIR = os.path.dirname(DJ_PROJECT_DIR)
+     #WSGI_DIR = os.path.dirname(BASE_DIR)
+     #REPO_DIR = os.path.dirname(WSGI_DIR)
+     #OTRO_PATH = os.path.join(WSGI_DIR, '..', 'static')
+     #print " PROJECT ", DJ_PROJECT_DIR
+     #print " base ", BASE_DIR
+     #print " wsgi ", WSGI_DIR
+     #print " repo ", REPO_DIR
+     #print " otro ", OTRO_PATH
      return render_to_response('home/home.html', context_instance=RequestContext(request))
 
 
