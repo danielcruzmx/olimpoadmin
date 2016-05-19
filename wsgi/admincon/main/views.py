@@ -7,9 +7,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.db import connection
+import os
 
 @login_required()
 def home(request):
+     #print os.path.dirname(os.path.dirname(__file__))
      return render_to_response('home/home.html', context_instance=RequestContext(request))
 
 

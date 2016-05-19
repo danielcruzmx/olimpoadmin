@@ -54,6 +54,10 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'rest_framework',
     'main',
+    'c_comonfort',
+    'c_olimpo',
+    'c_sadicarnot',
+    'c_tabachines',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -129,11 +133,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR,'static'),
+    os.path.join(WSGI_DIR,'static'),
 )
-STATIC_ROOT = os.path.join(BASE_DIR,'..', 'static')
+STATIC_ROOT = os.path.join(WSGI_DIR, '..', 'static')
+
 STATIC_URL = '/static/'
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+ )
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
