@@ -98,7 +98,7 @@ class Cuenta(models.Model):
     tipo_cuenta = models.ForeignKey(TipoCuenta)
 
     def __str__(self):
-        return '%s %s' % (self.clabe, self.apoderado[:10])
+        return '%s %s %s' % (self.condominio, self.clabe, self.apoderado[:10])
 
     class Meta:
         managed = True

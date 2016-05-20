@@ -30,7 +30,7 @@ class Condomino(models.Model):
     monto_adeudo_cuotas = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     monto_adeudo_extras = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return '%s %s' % (self.depto, self.poseedor)
 
     class Meta:

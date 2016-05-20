@@ -62,6 +62,9 @@ class Recibo(models.Model):
     situacion = models.ForeignKey(Situacion, blank=True, null=True, related_name='sadi_recibo_situacion_id')
     cuota = models.ManyToManyField(Cuota, related_name='sadi_recibo_cuota_id')
 
+    def __str__(self):
+        return '%s' % (self.folio)
+
     class Meta:
         managed = True
         db_table = 'sadicarnot_recibo'
@@ -83,5 +86,5 @@ class Movimiento(models.Model):
     class Meta:
         managed = True
         db_table = 'sadicarnot_movimiento'
-        ordering = ['fecha']
+        ordering = ['-fecha']
 
