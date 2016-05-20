@@ -117,3 +117,4 @@ class Proveedore(models.Model):
         managed = True
         db_table = 'proveedore'
 
+
