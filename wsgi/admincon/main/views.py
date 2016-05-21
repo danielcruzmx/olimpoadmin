@@ -1,13 +1,16 @@
-from django.shortcuts import render
-from django.shortcuts import render_to_response
-from django.contrib.auth.decorators import login_required
-from django.template import RequestContext
-from rest_framework import viewsets
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.db import connection
-import os
+from django.template import RequestContext
+from django.shortcuts import render_to_response
+from django.contrib.auth.decorators import login_required
+from utils import dictfetchall
+from tables import BancoTable
+from models import Banco
+from django_tables2   import RequestConfig
+from django.shortcuts import render
 
 @login_required()
 def home(request):
@@ -24,6 +27,11 @@ def home(request):
      #print " otro ", OTRO_PATH
      return render_to_response('home/home.html', context_instance=RequestContext(request))
 
+@login_required()
+def banco_list(request):
+    table = BancoTable(Banco.objects.all())
+    RequestConfig(request).configure(table)
+    return render(request, 'home/lista_bancos.html', {'table': table})
 
 class CondominoViewSet(APIView):
 
@@ -49,9 +57,3 @@ class CondominoViewSet(APIView):
         response = Response(cuotas_list, status=status.HTTP_200_OK)
         return response
 
-def dictfetchall(cursor):
-    desc = cursor.description
-    return [
-        dict(zip([col[0] for col in desc], row))
-        for row in cursor.fetchall()
-    ]
