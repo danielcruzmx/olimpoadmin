@@ -9,29 +9,26 @@ from django.contrib.auth.decorators import login_required
 from utils import dictfetchall
 from tables import BancoTable
 from models import Banco
-from django_tables2   import RequestConfig
+from django_tables2 import RequestConfig
 from django.shortcuts import render
+from tables import my_custom_sql
+from queries import q_movto_mes
 
 @login_required()
 def home(request):
-     #print os.path.dirname(os.path.dirname(__file__))
-     #DJ_PROJECT_DIR = os.path.dirname(__file__)
-     #BASE_DIR = os.path.dirname(DJ_PROJECT_DIR)
-     #WSGI_DIR = os.path.dirname(BASE_DIR)
-     #REPO_DIR = os.path.dirname(WSGI_DIR)
-     #OTRO_PATH = os.path.join(WSGI_DIR, '..', 'static')
-     #print " PROJECT ", DJ_PROJECT_DIR
-     #print " base ", BASE_DIR
-     #print " wsgi ", WSGI_DIR
-     #print " repo ", REPO_DIR
-     #print " otro ", OTRO_PATH
-     return render_to_response('home/home.html', context_instance=RequestContext(request))
+    return render_to_response('home/home.html', context_instance=RequestContext(request))
 
 @login_required()
 def banco_list(request):
     table = BancoTable(Banco.objects.all())
     RequestConfig(request).configure(table)
     return render(request, 'home/lista_bancos.html', {'table': table})
+
+@login_required()
+def movtos_list(request):
+    datos = my_custom_sql(q_movto_mes('sadicarnot','2016-05-01','2016-05-31'))
+    #RequestConfig(request).configure(datos)
+    return render_to_response('home/lista_movtos.html', {'table': datos})
 
 class CondominoViewSet(APIView):
 
