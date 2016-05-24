@@ -7,12 +7,12 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from utils import dictfetchall
-from tables import BancoTable
-from models import Banco
+from tables import BancoTable, CondominioTable, DptoPagoTable
+from models import Banco, Condominio
 from django_tables2 import RequestConfig
 from django.shortcuts import render
 from tables import my_custom_sql
-from queries import q_movto_mes
+from queries import q_movto_mes, q_depto_mes_pago
 
 @login_required()
 def home(request):
@@ -25,10 +25,24 @@ def banco_list(request):
     return render(request, 'home/lista_bancos.html', {'table': table})
 
 @login_required()
+def condominio_list(request):
+    table = CondominioTable(Condominio.objects.all())
+    #print table
+    RequestConfig(request).configure(table)
+    return render(request, 'home/lista_condominios.html', {'table': table})
+
+@login_required()
 def movtos_list(request):
     datos = my_custom_sql(q_movto_mes('sadicarnot','2016-05-01','2016-05-31'))
     #RequestConfig(request).configure(datos)
     return render_to_response('home/lista_movtos.html', {'table': datos})
+
+@login_required()
+def pago_depto_list(request):
+    table = DptoPagoTable(my_custom_sql(q_depto_mes_pago('sadicarnot','2016-05-01','2016-05-31')))
+    #print table
+    RequestConfig(request).configure(table)
+    return render(request, 'home/lista_condominios.html', {'table': table})
 
 class CondominoViewSet(APIView):
 

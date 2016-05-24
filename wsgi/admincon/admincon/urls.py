@@ -27,6 +27,8 @@ urlpatterns = [
     url(r'^api-rest/(?P<mail_id>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$',CondominoViewSet.as_view(),name='my_rest_view'),
     url(r'^$', 'main.views.home'),
     url(r'^bancos/', 'main.views.banco_list'),
+    url(r'^condominios/', 'main.views.condominio_list'),
+    url(r'^pagos/', 'main.views.pago_depto_list'),
     url(r'^movtos/', 'main.views.movtos_list'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^explorer/', include('explorer.urls')),
