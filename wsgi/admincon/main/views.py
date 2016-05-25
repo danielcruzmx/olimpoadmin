@@ -7,22 +7,41 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from utils import dictfetchall
-from tables import BancoTable, CondominioTable, DptoPagoTable
+from tables import BancoTable, CondominioTable, DptoPagoTable, CuentasTable, QueriesTable
 from models import Banco, Condominio
 from django_tables2 import RequestConfig
 from django.shortcuts import render
 from tables import my_custom_sql
-from queries import q_movto_mes, q_depto_mes_pago
+from queries import q_movto_mes, q_depto_mes_pago, q_cuentas, q_consultas
+from django.conf.urls import patterns
+from django.contrib import admin
+from django.http import HttpResponse
+from explorer.models import Query
 
 @login_required()
 def home(request):
     return render_to_response('home/home.html', context_instance=RequestContext(request))
 
 @login_required()
+def cuentas_list(request):
+    table = CuentasTable(my_custom_sql(q_cuentas()))
+    RequestConfig(request).configure(table)
+    titulo = 'Cuentas bancarias por condominio'
+    return render(request, 'home/lista_comun.html', {'table': table, 'titulo': titulo})
+
+@login_required()
 def banco_list(request):
     table = BancoTable(Banco.objects.all())
     RequestConfig(request).configure(table)
-    return render(request, 'home/lista_bancos.html', {'table': table})
+    titulo = 'Lista de Bancos'
+    return render(request, 'home/lista_comun.html', {'table': table, 'titulo': titulo})
+
+@login_required()
+def querys_list(request):
+    table = QueriesTable(Query.objects.all())
+    RequestConfig(request).configure(table)
+    titulo = 'Lista de datos a descargar'
+    return render(request, 'home/lista_comun.html', {'table': table, 'titulo': titulo})
 
 @login_required()
 def condominio_list(request):
@@ -33,11 +52,21 @@ def condominio_list(request):
 
 @login_required()
 def movtos_list(request):
-    datos = my_custom_sql(q_movto_mes('sadicarnot','2016-05-01','2016-05-31'))
-    #RequestConfig(request).configure(datos)
-    return render_to_response('home/lista_movtos.html', {'table': datos})
+    table = my_custom_sql(q_movto_mes('sadicarnot','2016-05-01','2016-05-31'))
+    RequestConfig(request).configure(table)
+    return render(request, 'home/lista_condominios.html', {'table': table})
 
 @login_required()
+def query_list(request):
+    table = my_custom_sql(q_consultas())
+    #RequestConfig(request).configure(table)
+    print table
+    #for  r in table:
+    #    print r['Id'], r['Titulo'], r['Descripcion']
+    titulo = 'Lista de datos a descargar'
+    keys = ['id','titulo','descripcion']
+    return render_to_response('home/lista_consultas.html', { 'table': table, 'titulo': titulo, 'keys': keys} , context_instance=RequestContext(request))
+
 def pago_depto_list(request):
     table = DptoPagoTable(my_custom_sql(q_depto_mes_pago('sadicarnot','2016-05-01','2016-05-31')))
     #print table

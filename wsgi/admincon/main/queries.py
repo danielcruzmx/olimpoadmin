@@ -28,3 +28,20 @@ def q_depto_mes_pago(tabla, fecha_ini, fecha_fin):
     ''' % (tabla, tabla, fecha_ini, fecha_fin)
     return query
 
+def q_cuentas():
+    query = '''
+        SELECT cuenta.id, clabe, trim(nombre) as nombre, apoderado, saldo as saldo, fecha_saldo,
+        'Todos' as link
+        FROM cuenta, condominio
+        where cuenta.condominio_id = condominio.id
+        order by fecha_saldo desc
+    '''
+    return query
+
+def q_consultas():
+    query = '''
+        SELECT id, title as titulo, description as descripcion
+        FROM explorer_query
+        order by id
+    '''
+    return query

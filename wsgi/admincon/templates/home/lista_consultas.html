@@ -1,0 +1,38 @@
+{% extends "home/mipagina.html" %}
+{% load render_table from django_tables2 %}
+
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{titulo}}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="table-container">
+                <table class="paleblue">
+                    <thead>
+                        <tr>
+                            {% for k in keys %}
+                                <th>{{k}}</th>
+                            {% endfor %}
+                            <th>
+                                Resultado
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in table %}
+                            <tr>
+                                <td>{{ c.id }}</td>
+                                <td>{{ c.titulo }}</td>
+                                <td>{{ c.descripcion }}</td>
+                                <td>
+                                    <a href="/explorer/{{c.id}}/download">Descarga</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
