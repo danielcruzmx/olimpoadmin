@@ -63,8 +63,8 @@ def query_list(request):
     print table
     #for  r in table:
     #    print r['Id'], r['Titulo'], r['Descripcion']
-    titulo = 'Lista de datos a descargar'
-    keys = ['id','titulo','descripcion']
+    titulo = 'Datos para descarga'
+    keys = ['id','Titulo','Descripcion']
     return render_to_response('home/lista_consultas.html', { 'table': table, 'titulo': titulo, 'keys': keys} , context_instance=RequestContext(request))
 
 def pago_depto_list(request):
