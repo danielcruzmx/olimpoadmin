@@ -82,6 +82,24 @@ class Condominio(models.Model):
     def __str__(self):
         return '%s' % (self.nombre)
 
+    def movimientos(self):
+        return '<a href="/admin/c_%s/movimiento/">Ir</a>' % str(self.nombre).lower()
+
+    def condominos(self):
+        return '<a href="/admin/c_%s/condomino/">Ir</a>' % str(self.nombre).lower()
+
+    def cuotas(self):
+        return '<a href="/admin/c_%s/cuota/">Ir</a>' % str(self.nombre).lower()
+
+    def recibos(self):
+        return '<a href="/admin/c_%s/recibo/">Ir</a>' % str(self.nombre).lower()
+
+
+    movimientos.allow_tags = True
+    condominos.allow_tags = True
+    cuotas.allow_tags = True
+    recibos.allow_tags = True
+
     class Meta:
         managed = True
         db_table = 'condominio'
@@ -117,4 +135,14 @@ class Proveedore(models.Model):
         managed = True
         db_table = 'proveedore'
 
+class Periodo(models.Model):
+    condominio = models.ForeignKey(Condominio)
+    fecha_inicial = models.DateField(blank=True, null=True)
+    fecha_final = models.DateField(blank=True, null=True)
 
+    def __str__(self):
+        return '%s' % (self.condominio)
+
+    class Meta:
+        managed = True
+        db_table = 'periodo'

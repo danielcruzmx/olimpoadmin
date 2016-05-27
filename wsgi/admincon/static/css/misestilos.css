@@ -36,7 +36,7 @@ p {font-size: 16px;}
     padding-bottom: 15px;
     border: 0;
     border-radius: 0;
-     margin-bottom: 0;
+    margin-bottom: 0;
     font-size: 12px;
     letter-spacing: 5px;
 }
@@ -154,3 +154,14 @@ p {font-size: 16px;}
 	.login-help > a:hover {
   		text-decoration: underline;
 	}
+
+
+[class^="hhglyphicon-"], [class*=" hhglyphicon-"] {
+    display: inline-block;
+    width: 100%;
+}
+
+td i {
+    text-align:center;
+}
+

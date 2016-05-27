@@ -1,6 +1,7 @@
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.http import HttpResponseRedirect
 from rest_framework import status
 from django.db import connection
 from django.template import RequestContext
@@ -13,15 +14,27 @@ from django_tables2 import RequestConfig
 from django.shortcuts import render
 from tables import my_custom_sql
 from queries import q_movto_mes, q_depto_mes_pago, q_cuentas, q_consultas
-from django.conf.urls import patterns
-from django.contrib import admin
-from django.http import HttpResponse
 from explorer.models import Query
+from models import Condominio
 
+#
+#   Vistas en operacion
+#
 @login_required()
 def home(request):
-    return render_to_response('home/home.html', context_instance=RequestContext(request))
-
+    return HttpResponseRedirect('/admin/main')
+#    condominios = Condominio.objects.all()
+#    return render_to_response('home/home.html', {'condominios':condominios } ,context_instance=RequestContext(request))
+#
+@login_required()
+def query_list(request):
+    table = my_custom_sql(q_consultas())
+    titulo = 'Datos para descarga'
+    keys = ['id','Titulo','Descripcion']
+    return render_to_response('admin/descargas.html', { 'table': table, 'titulo': titulo, 'keys': keys} , context_instance=RequestContext(request))
+#
+#   Vistas de prueba
+#
 @login_required()
 def cuentas_list(request):
     table = CuentasTable(my_custom_sql(q_cuentas()))
@@ -55,17 +68,6 @@ def movtos_list(request):
     table = my_custom_sql(q_movto_mes('sadicarnot','2016-05-01','2016-05-31'))
     RequestConfig(request).configure(table)
     return render(request, 'home/lista_condominios.html', {'table': table})
-
-@login_required()
-def query_list(request):
-    table = my_custom_sql(q_consultas())
-    #RequestConfig(request).configure(table)
-    print table
-    #for  r in table:
-    #    print r['Id'], r['Titulo'], r['Descripcion']
-    titulo = 'Datos para descarga'
-    keys = ['id','Titulo','Descripcion']
-    return render_to_response('home/lista_consultas.html', { 'table': table, 'titulo': titulo, 'keys': keys} , context_instance=RequestContext(request))
 
 def pago_depto_list(request):
     table = DptoPagoTable(my_custom_sql(q_depto_mes_pago('sadicarnot','2016-05-01','2016-05-31')))

@@ -15,7 +15,7 @@ class EstacionamientoAdminB(admin.ModelAdmin):
 	list_display = ('ubicacion',)
 
 class CuotaAdminB(admin.ModelAdmin):
-	list_display = ('tipo_cuota','fecha_inicio','fecha_fin','monto', 'pago')
+	list_display = ('condomino','tipo_cuota','fecha_inicio','fecha_fin','monto', 'pago')
 	list_filter = ('fecha_inicio',)
 	date_hierarchy = 'fecha_inicio'
 	ordering = ('-fecha_inicio',)

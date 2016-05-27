@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+#from django.views.generic import RedirectView
 from django.contrib.auth.views import login,logout
 
 admin.autodiscover()
@@ -22,16 +23,11 @@ admin.autodiscover()
 from main.views import CondominoViewSet
 
 urlpatterns = [
-    url(r'^accounts/login/$' , login , {'template_name':'home/login.html'} ),
-    url(r'^accounts/logout/$', logout, {'next_page': '/'}),
+    #url(r'^accounts/login/$' , login , {'template_name':'home/login.html'} ),
+    #url(r'^accounts/logout/$', logout, {'next_page': '/'}),
     url(r'^api-rest/(?P<mail_id>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$',CondominoViewSet.as_view(),name='my_rest_view'),
     url(r'^$', 'main.views.home'),
-    url(r'^bancos/', 'main.views.banco_list'),
     url(r'^queries/', 'main.views.query_list'),
-    url(r'^condominios/', 'main.views.condominio_list'),
-    url(r'^pagos/', 'main.views.pago_depto_list'),
-    url(r'^ctas/', 'main.views.cuentas_list'),
-    url(r'^movtos/', 'main.views.movtos_list', name='movtos_detail'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^explorer/', include('explorer.urls')),
 ]
