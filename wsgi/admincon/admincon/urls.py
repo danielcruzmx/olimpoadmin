@@ -23,8 +23,8 @@ admin.autodiscover()
 from main.views import CondominoViewSet
 
 urlpatterns = [
-    #url(r'^accounts/login/$' , login , {'template_name':'home/login.html'} ),
-    #url(r'^accounts/logout/$', logout, {'next_page': '/'}),
+    url(r'^accounts/login/$' , login , {'template_name':'home/login.html'} ),
+    url(r'^accounts/logout/$', logout, {'next_page': '/'}),
     url(r'^api-rest/(?P<mail_id>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$',CondominoViewSet.as_view(),name='my_rest_view'),
     url(r'^$', 'main.views.home'),
     url(r'^queries/', 'main.views.query_list'),
