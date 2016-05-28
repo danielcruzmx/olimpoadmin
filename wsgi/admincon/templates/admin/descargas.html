@@ -1,14 +1,4 @@
-{% extends "admin/base.html" %}
-
-{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
-
-{% block branding %}
-    <h1 id="site-name">
-        <a href="{{ site_url }}"> Vigo Ingresos y Egresos</a>
-    </h1>
-{% endblock %}
-
-{% block nav-global %}{% endblock %}
+{% extends "admin/base_site.html" %}
 
 {% block content %}
     <div class="panel panel-default">
@@ -35,7 +25,7 @@
                                 <td>{{ c.titulo }}</td>
                                 <td>{{ c.descripcion }}</td>
                                 <td>
-                                    <a href="/explorer/{{c.id}}/download"><i class="glyphicon glyphicon-circle-arrow-down"></i></a>
+                                    <a href="/explorer/{{c.id}}/download">Descargar</a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -44,4 +34,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}
