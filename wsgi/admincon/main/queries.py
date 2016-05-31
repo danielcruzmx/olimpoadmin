@@ -4,7 +4,7 @@ __author__ = 'daniel_cruz'
 #
 def q_hist_cuotas(tabla, condomino):
     query = '''
-    			select fecha_inicio as inicio, fecha_fin as fin, monto, pago, monto-pago as adeudo, tipo_cuota.tipo as tipo,
+    			select month(fecha_inicio) as inicio, month(fecha_fin) as fin, monto, pago, monto-pago as adeudo, tipo_cuota.tipo as tipo,
     			      depto, propietario
                 from  %s_cuota, tipo_cuota, situacion, %s_condomino
                 where %s_cuota.tipo_cuota_id = tipo_cuota.id
