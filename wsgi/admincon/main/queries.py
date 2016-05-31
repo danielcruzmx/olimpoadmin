@@ -11,7 +11,7 @@ def q_hist_cuotas(tabla, condomino):
                 and   %s_cuota.situacion_id = situacion.id
                 and   %s_cuota.condomino_id = %s_condomino.id
                 and   condomino_id = %s
-                --and   fecha_fin <= now()
+                and   fecha_fin <= now()
                 order by fecha_inicio
     ''' % (tabla,tabla,tabla,tabla,tabla,tabla,condomino)
     return query
