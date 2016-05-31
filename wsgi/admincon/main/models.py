@@ -89,7 +89,7 @@ class Condominio(models.Model):
         return '<a href="/admin/c_%s/condomino/">Detalle</a>' % str(self.nombre).lower()
 
     def cuotas(self):
-        return '<a href="/admin/c_%s/cuota/">Saldo</a>' % str(self.nombre).lower()
+        return '<a href="/admin/c_%s/cuota/">Saldos</a>' % str(self.nombre).lower()
 
     def recibos(self):
         return '<a href="/admin/c_%s/recibo/">Folio</a>' % str(self.nombre).lower()

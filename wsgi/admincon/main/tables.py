@@ -7,6 +7,20 @@ from django.db import connection
 from django_tables2.utils import A
 from explorer.models import Query
 
+
+class RepoTable(tables.Table):
+    fecha_Inicial = tables.Column(accessor='fecha_inicio')
+    fecha_final = tables.Column(accessor='fecha_fin')
+    monto = tables.Column()
+    pago = tables.Column()
+    dif = tables.Column()
+    tipo = tables.Column()
+
+    class Meta:
+        orderable = True
+#
+#
+#
 class QueriesTable(tables.Table):
     title = tables.Column(verbose_name='Consulta')
     description = tables.Column(verbose_name='Descripcion')

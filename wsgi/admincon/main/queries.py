@@ -1,5 +1,21 @@
 __author__ = 'daniel_cruz'
-
+#
+#    Consultas empleadas
+#
+def q_hist_cuotas(tabla, condomino):
+    query = '''
+    			select fecha_inicio, fecha_fin, monto, pago, monto-pago as dif, tipo_cuota.tipo as tipo
+                from  %s_cuota, tipo_cuota, situacion, %s_condomino
+                where %s_cuota.tipo_cuota_id = tipo_cuota.id
+                and   %s_cuota.situacion_id = situacion.id
+                and   %s_cuota.condomino_id = %s_condomino.id
+                and   condomino_id = %s
+                order by fecha_inicio
+    ''' % (tabla,tabla,tabla,tabla,tabla,tabla,condomino)
+    return query
+#
+#
+#
 def q_movto_mes(tabla, fecha_ini, fecha_fin):
     query = '''
         select m.id,
