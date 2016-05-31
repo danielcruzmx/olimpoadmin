@@ -18,15 +18,13 @@ from explorer.models import Query
 from models import Condominio
 from datetime import datetime
 from tables import RepoTable
-from queries import q_hist_cuotas
+from queries import q_hist_cuotas, q_adeudos_condomino
 #
 #   Vistas en operacion
 #
 @login_required()
 def home(request):
     return HttpResponseRedirect('/admin/main')
-#    condominios = Condominio.objects.all()
-#    return render_to_response('home/home.html', {'condominios':condominios } ,context_instance=RequestContext(request))
 #
 @login_required()
 def reporte_cuotas(request,condominio,idCondomino):
@@ -36,6 +34,21 @@ def reporte_cuotas(request,condominio,idCondomino):
     keys = ['inicio','fin','monto','pago','adeudo','tipo']
     return render_to_response(
         "home/reportcuotas.html",
+        {'table'        : table,
+         'titulo'       : titulo,
+         'keys'         : keys,
+         'current_date' : datetime.now() },
+         context_instance=RequestContext(request, {}),
+    )
+#
+@login_required()
+def reporte_adeudos(request,condominio,idCondomino):
+    idCondomino = int(idCondomino)
+    table = my_custom_sql(q_adeudos_condomino(condominio,idCondomino))
+    titulo = 'Condominio ' + str(condominio).upper() + ', historico de cuotas del condomino '
+    keys = ['anio','tipo','monto','pago','adeudo','detalle']
+    return render_to_response(
+        "home/reportadeudos.html",
         {'table'        : table,
          'titulo'       : titulo,
          'keys'         : keys,

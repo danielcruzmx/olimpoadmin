@@ -4,8 +4,10 @@ __author__ = 'daniel_cruz'
 #
 def q_hist_cuotas(tabla, condomino):
     query = '''
-    			select month(fecha_inicio) as inicio, month(fecha_fin) as fin, monto, pago, monto-pago as adeudo, tipo_cuota.tipo as tipo,
-    			      depto, propietario
+                select ELT(DATE_FORMAT(fecha_inicio,'%m'),'Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic')  as ini,
+                       ELT(DATE_FORMAT(fecha_fin,'%m'),'Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic')  as fin,
+                       monto, pago, monto-pago as adeudo, tipo_cuota.tipo as tipo,
+                       depto, propietario
                 from  %s_cuota, tipo_cuota, situacion, %s_condomino
                 where %s_cuota.tipo_cuota_id = tipo_cuota.id
                 and   %s_cuota.situacion_id = situacion.id
@@ -13,6 +15,24 @@ def q_hist_cuotas(tabla, condomino):
                 and   condomino_id = %s
                 and   fecha_fin <= now()
                 order by fecha_inicio
+    ''' % (tabla,tabla,tabla,tabla,tabla,tabla,condomino)
+    return query
+#
+#
+#
+def q_adeudos_condomino(tabla, condomino):
+    query = '''
+        select
+        year(fecha_fin) as anio, tipo_cuota.tipo, sum(monto) as monto, sum(pago) as pago, sum(monto - pago) as adeudo, "detalle" as detalle,
+        depto, propietario
+        from  %s_cuota, tipo_cuota, situacion, %s_condomino
+        where %s_cuota.tipo_cuota_id = tipo_cuota.id
+        and   %s_cuota.situacion_id = situacion.id
+        and   %s_cuota.condomino_id = %s_condomino.id
+        and   condomino_id = %s
+        and   fecha_fin <= now()
+        group by anio, tipo, depto, propietario
+        order by 1
     ''' % (tabla,tabla,tabla,tabla,tabla,tabla,condomino)
     return query
 #
