@@ -1,7 +1,8 @@
 {% extends "admin/base_site.html" %}
+{% load i18n admin_urls admin_static admin_list %}
 
 {% block content %}
-    <div class="panel panel-default">
+    <div id="content-main">
         <div class="panel-heading">
             <h3 class="panel-title">{{titulo}} {{ table.1.depto }} {{ table.1.propietario }} al {{ current_date }} </h3>
         </div>
