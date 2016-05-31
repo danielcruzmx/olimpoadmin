@@ -33,6 +33,11 @@ class Condomino(models.Model):
     def __unicode__(self):
         return '%s %s' % (self.depto, self.poseedor)
 
+    def cuotas(self):
+        return '<a href="/admin/report/cuotas/comonfort/%s/">Detalle</a>' % (self.id)
+
+    cuotas.allow_tags = True
+
     class Meta:
         managed = True
         db_table = 'comonfort_condomino'

@@ -32,13 +32,14 @@ def home(request):
 def reporte_cuotas(request,condominio,idCondomino):
     idCondomino = int(idCondomino)
     table = my_custom_sql(q_hist_cuotas(condominio,idCondomino))
-    titulo = 'Historico de cuotas del condomino '
-    keys = ['fecha_inicio','fecha_fin','monto','pago','dif','tipo']
+    titulo = 'Condominio ' + str(condominio).upper() + ', historico de cuotas del condomino '
+    keys = ['inicio','fin','monto','pago','adeudo','tipo']
     return render_to_response(
         "home/reportcuotas.html",
-        {'table'  : table,
-         'titulo' : titulo,
-         'keys'   : keys },
+        {'table'        : table,
+         'titulo'       : titulo,
+         'keys'         : keys,
+         'current_date' : datetime.now() },
          context_instance=RequestContext(request, {}),
     )
 #

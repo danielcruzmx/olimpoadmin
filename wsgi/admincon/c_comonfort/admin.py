@@ -8,7 +8,7 @@ class MovimientoAdminA(admin.ModelAdmin):
 	ordering = ('-fecha',)
 
 class CondominoAdminA(admin.ModelAdmin):
-	list_display = ('depto','ubicacion','propietario','poseedor')
+	list_display = ('depto','propietario','poseedor','cuotas')
 	search_fields = ('depto','propietario','poseedor')
 
 class EstacionamientoAdminA(admin.ModelAdmin):
