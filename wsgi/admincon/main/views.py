@@ -114,7 +114,7 @@ class CondominoViewSet(APIView):
         query = '''
     		 Select co.nombre, cn.depto, cn.fecha_ultimo_deposito, cn.monto_cuota_mes, cn.referencia,
                    ba.descripcion, cu.apoderado, cu.cuenta, cu.clabe
-            From condomino cn, condominio co, cuenta cu, banco ba
+            From olimpo_condomino cn, condominio co, cuenta cu, banco ba
             where cn.condominio_id = co.id
             and   co.id = cu.condominio_id
             and   cu.banco_id = ba.id
