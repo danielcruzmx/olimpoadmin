@@ -37,6 +37,25 @@ class Condomino(models.Model):
         db_table = 'sadicarnot_condomino'
         ordering = ['depto']
 
+class Movimiento(models.Model):
+    cuenta = models.ForeignKey(Cuenta, related_name='sadi_movimiento_cuenta_id')
+    fecha = models.DateField(blank=True, null=True)
+    tipo_movimiento = models.ForeignKey(TipoMovimiento, blank=True, null=True, related_name='sadi_movimiento_tipo_movimiento_id')
+    descripcion = models.CharField(max_length=250, blank=True, null=True)
+    condomino = models.ForeignKey(Condomino, related_name='sadi_movimiento_condomino_id')
+    retiro = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True, default=0)
+    deposito = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True, default=0)
+    saldo = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
+    recibo = models.IntegerField(blank=False, null=True, default=0)
+
+    def __str__(self):
+        return u'%d %s %d %s' % (self.id, self.fecha.strftime('%d/%m/%Y'), self.deposito, self.descripcion[:15])
+
+    class Meta:
+        managed = True
+        db_table = 'sadicarnot_movimiento'
+        ordering = ['-fecha']
+
 class Cuota(models.Model):
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
@@ -68,23 +87,3 @@ class Recibo(models.Model):
     class Meta:
         managed = True
         db_table = 'sadicarnot_recibo'
-
-class Movimiento(models.Model):
-    cuenta = models.ForeignKey(Cuenta, related_name='sadi_movimiento_cuenta_id')
-    fecha = models.DateField(blank=True, null=True)
-    tipo_movimiento = models.ForeignKey(TipoMovimiento, blank=True, null=True, related_name='sadi_movimiento_tipo_movimiento_id')
-    descripcion = models.CharField(max_length=250, blank=True, null=True)
-    condomino = models.ForeignKey(Condomino, related_name='sadi_movimiento_condomino_id')
-    retiro = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    deposito = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    saldo = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    recibo = models.ManyToManyField(Recibo, related_name='sadi_movimiento_recibo_id')
-
-    def __str__(self):
-        return u'%d %s %d %s' % (self.id, self.fecha.strftime('%d/%m/%Y'), self.deposito, self.descripcion[:15])
-
-    class Meta:
-        managed = True
-        db_table = 'sadicarnot_movimiento'
-        ordering = ['-fecha']
-
