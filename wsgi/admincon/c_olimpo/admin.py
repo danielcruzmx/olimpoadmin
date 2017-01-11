@@ -1,5 +1,11 @@
 from django.contrib import admin
-from models import Condomino, Movimiento, Cuota, Recibo, Estacionamiento
+from models import Condomino, Movimiento, Cuota, Recibo, Estacionamiento, Auxiliar
+
+class AuxiliarAdminA(admin.ModelAdmin):
+	list_display = ('id','fecha','tipo_movimiento','retiro','deposito','condomino')
+	list_filter = ('fecha',)
+	date_hierarchy = 'fecha'
+	ordering = ('-fecha',)
 
 class MovimientoAdminB(admin.ModelAdmin):
 	list_display = ('id','fecha','tipo_movimiento','retiro','deposito','condomino')
@@ -28,6 +34,7 @@ class ReciboAdminB(admin.ModelAdmin):
 	ordering = ('-fecha',)
 
 admin.site.register(Movimiento, MovimientoAdminB)
+admin.site.register(Auxiliar, AuxiliarAdminA)
 admin.site.register(Condomino, CondominoAdminB)
 admin.site.register(Estacionamiento, EstacionamientoAdminB)
 admin.site.register(Recibo, ReciboAdminB)

@@ -129,3 +129,34 @@ class CondominoViewSet(APIView):
         response = Response(cuotas_list, status=status.HTTP_200_OK)
         return response
 
+class CuotasViewSet(APIView):
+
+    def get(self, request, *args, **kw):
+        cursor = connection.cursor()
+        #get_arg1 = request.GET.get('mail_id')
+        valor = kw['depto_id']
+        query = '''
+                SELECT olimpo_movimiento.id as Num,fecha AS fecha,tipo_movimiento.descripcion AS tipo,
+                       olimpo_movimiento.descripcion AS descripcion, CONCAT(olimpo_condomino.depto,' ',olimpo_condomino.propietario) as Condomino,
+                       retiro as cargo, deposito as abono,  saldo
+                FROM olimpo_movimiento,
+                    tipo_movimiento,
+                     olimpo_condomino,
+                     periodo,
+                     condominio
+                WHERE olimpo_movimiento.tipo_movimiento_id = tipo_movimiento.id
+                AND olimpo_movimiento.condomino_id = olimpo_condomino.id
+                and periodo.condominio_id = condominio.id
+                and olimpo_condomino.condominio_id = condominio.id
+                and olimpo_condomino.depto = '%s'
+                ORDER BY 2,1
+
+        ''' % valor
+        #for k,v in request.GET.get.items():
+        #    print k,v
+        #print kw['mail_id']
+        #print query
+        cursor.execute(query)
+        cuotas_list = dictfetchall(cursor)
+        response = Response(cuotas_list, status=status.HTTP_200_OK)
+        return response
