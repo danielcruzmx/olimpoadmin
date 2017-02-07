@@ -156,7 +156,8 @@ class CuotasViewSet(APIView):
         #    print k,v
         #print kw['mail_id']
         #print query
-        cursor.execute(query)
+        #cursor.execute(query)
+        cursor.callproc("saldo_movimientos_depto", [valor])
         cuotas_list = dictfetchall(cursor)
         response = Response(cuotas_list, status=status.HTTP_200_OK)
         return response
