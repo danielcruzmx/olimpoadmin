@@ -161,3 +161,18 @@ class CuotasViewSet(APIView):
         cuotas_list = dictfetchall(cursor)
         response = Response(cuotas_list, status=status.HTTP_200_OK)
         return response
+
+class CondominosOlimpoViewSet(APIView):
+
+    def get(self, request, *args, **kw):
+        cursor = connection.cursor()
+        query = '''
+             Select co.nombre as CONDOMINIO, cn.depto AS DEPTO, cn.propietario as CONDOMINO
+             From olimpo_condomino cn, condominio co
+             where cn.condominio_id = co.id
+    		''' 
+        print query
+        cursor.execute(query)
+        condominos_list = dictfetchall(cursor)
+        response = Response(condominos_list, status=status.HTTP_200_OK)
+        return response
