@@ -17,7 +17,6 @@ from queries import q_movto_mes, q_depto_mes_pago, q_cuentas, q_consultas
 from explorer.models import Query
 from models import Condominio
 from datetime import datetime
-from tables import RepoTable
 from queries import q_hist_cuotas, q_adeudos_condomino
 #
 #   Vistas en operacion
@@ -175,4 +174,178 @@ class CondominosOlimpoViewSet(APIView):
         cursor.execute(query)
         condominos_list = dictfetchall(cursor)
         response = Response(condominos_list, status=status.HTTP_200_OK)
+        return response
+
+
+class FaltantesMesOlimpoViewSet(APIView):
+    def get(self, request, *args, **kw):
+        cursor = connection.cursor()
+        valor = kw['mes_anio']
+        query = '''
+                SELECT nombre as CONDOMINIO,
+                       '%s' as MES, 
+                       depto as DEPTO,
+                       propietario as CONDOMINO, 
+                       email as CORREO,
+                       telefono as TELEFONO
+                FROM olimpo_condomino,
+                     condominio
+                WHERE olimpo_condomino.condominio_id = condominio.id
+	            and depto NOT IN
+                        (SELECT depto
+                         FROM olimpo_movimiento,
+                              cuenta,
+                              olimpo_condomino
+                         WHERE olimpo_movimiento.cuenta_id = cuenta.id
+                         AND date_format(fecha,'%%m-%%Y') = '%s'      
+                         AND olimpo_condomino.id = olimpo_movimiento.condomino_id
+                         AND olimpo_condomino.depto != '0000'
+                         AND deposito > 0)
+                and depto != '0000'       
+                ORDER BY depto
+                ''' % (valor,valor)
+        cursor.execute(query)
+        faltantes_list = dictfetchall(cursor)
+        response = Response(faltantes_list, status=status.HTTP_200_OK)
+        return response
+
+class CuotasDeptoMesOlimpoViewSet(APIView):
+    def get(self, request, *args, **kw):
+        cursor = connection.cursor()
+        valor = kw['mes_anio']
+        #print valor
+        query = '''
+                SELECT '%s' as MES,
+                       nombre as CONDOMINIO,
+                       depto as DEPTO,
+                       propietario as PROPIETARIO,
+                       sum(deposito) as DEPOSITO
+                FROM olimpo_movimiento, cuenta, olimpo_condomino, condominio
+                WHERE olimpo_movimiento.cuenta_id = cuenta.id
+                      and date_format(fecha,'%%m-%%Y') = '%s'
+                      and olimpo_condomino.id = olimpo_movimiento.condomino_id
+                      and cuenta.condominio_id = condominio.id
+                      and olimpo_condomino.depto != '0000'
+                      and deposito > 0
+                GROUP by 1,2,3,4
+                UNION
+                SELECT '%s' as MES,
+                       nombre as CONDOMINIO,
+                       depto as DEPTO,
+                       propietario AS PROPIETARIO,
+                       0 AS DEPOSITO
+                FROM olimpo_condomino, condominio
+                WHERE olimpo_condomino.condominio_id = condominio.id
+                      and depto NOT IN
+                         (SELECT depto
+                          FROM olimpo_movimiento,
+                               cuenta,
+                               olimpo_condomino
+                          WHERE olimpo_movimiento.cuenta_id = cuenta.id
+                          AND olimpo_condomino.id = olimpo_movimiento.condomino_id
+                          and cuenta.condominio_id = condominio.id
+                          AND olimpo_condomino.depto != '0000'
+                          AND date_format(fecha,'%%m-%%Y') = '%s'
+                          AND deposito > 0)
+                 AND depto != '0000'       
+                 ORDER BY depto
+        ''' % (valor, valor, valor, valor)
+        #print query
+        cursor.execute(query)
+        cuotas_list = dictfetchall(cursor)
+        response = Response(cuotas_list, status=status.HTTP_200_OK)
+        return response
+
+class MovimientosOlimpoViewSet(APIView):
+    def get(self, request, *args, **kw):
+        cursor = connection.cursor()
+        valorIni = kw['fec_ini']
+        valorFin = kw['fec_fin']
+        #print valor
+        query = '''
+             SELECT olimpo_movimiento.id as NUM,
+                   fecha AS FECHA,
+                   tipo_movimiento.descripcion AS TIPO,
+                   olimpo_movimiento.descripcion AS DESCRIPCION,
+                   CONCAT(olimpo_condomino.depto,' ', olimpo_condomino.propietario) AS CONDOMINO,
+                   retiro AS RETIRO,
+                   deposito AS DEPOSITO,
+                   saldo AS SALDO,
+                   olimpo_condomino.depto AS DEPTO
+            FROM olimpo_movimiento,
+                 tipo_movimiento,
+                 olimpo_condomino,
+                 condominio
+            WHERE olimpo_movimiento.tipo_movimiento_id = tipo_movimiento.id
+                  AND olimpo_movimiento.condomino_id = olimpo_condomino.id
+                  AND olimpo_condomino.condominio_id = condominio.id
+                  AND fecha >= '%s'
+                  AND fecha <= '%s'
+            ORDER BY 2,1
+        ''' % (valorIni, valorFin)
+        #print query
+        cursor.execute(query)
+        movimientos_list = dictfetchall(cursor)
+        response = Response(movimientos_list, status=status.HTTP_200_OK)
+        return response
+
+class NoIdentificadosOlimpoViewSet(APIView):
+    def get(self, request, *args, **kw):
+        cursor = connection.cursor()
+        valorIni = kw['fec_ini']
+        valorFin = kw['fec_fin']
+        #print valor
+        query = '''
+           SELECT nombre as CONDOMINIO,
+                  cuenta as CUENTA,
+                  fecha AS FECHA,
+                  descripcion AS DESCRIPCION,
+                  deposito AS DEPOSITO
+           FROM olimpo_movimiento,
+                cuenta,
+                olimpo_condomino,
+                condominio
+           WHERE olimpo_movimiento.cuenta_id = cuenta.id
+           AND FECHA >= '%s'
+           AND FECHA <= '%s'
+           AND olimpo_condomino.id = olimpo_movimiento.condomino_id
+           AND olimpo_condomino.depto = '0000'
+           AND cuenta.condominio_id = condominio.id
+           AND deposito > 0
+           ORDER BY FECHA
+        ''' % (valorIni, valorFin)
+        #print query
+        cursor.execute(query)
+        movimientos_list = dictfetchall(cursor)
+        response = Response(movimientos_list, status=status.HTTP_200_OK)
+        return response
+
+class TotalIngresosEgresosOlimpoViewSet(APIView):
+    def get(self, request, *args, **kw):
+        cursor = connection.cursor()
+        valorIni = kw['fec_ini']
+        valorFin = kw['fec_fin']
+        #print valor
+        query = '''
+           SELECT nombre AS CONDOMINIO,
+                  cuenta as CUENTA,
+                  cuenta.saldo as SALDO,
+                  MIN(olimpo_movimiento.FECHA) AS FECHAINI,
+                  MAX(olimpo_movimiento.FECHA) AS FECHAFIN,
+                  SUM(olimpo_movimiento.RETIRO) AS RETIROS,
+                  SUM(olimpo_movimiento.deposito) AS DEPOSITOS,
+                  sum(deposito) - sum(retiro) AS SALDO
+           FROM olimpo_movimiento,
+                cuenta,
+                condominio
+           WHERE cuenta.id = olimpo_movimiento.cuenta_id
+           AND FECHA >= '%s'
+           AND FECHA <= '%s'
+           AND cuenta.condominio_id = condominio.id
+           GROUP BY cuenta
+        ''' % (valorIni, valorFin)
+        #print query
+        cursor.execute(query)
+        totales_list = dictfetchall(cursor)
+        response = Response(totales_list, status=status.HTTP_200_OK)
         return response
