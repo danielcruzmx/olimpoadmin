@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^api-rest/(?P<mail_id>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$',CondominoViewSet.as_view(),name='my_rest_view'),
     url(r'^api-rest/movimientos/(?P<depto_id>[\w]+)/$',CuotasViewSet.as_view(), name='my_rest_view'),
     url(r'^admin/report/cuotas/(\w+)/(\d+)/$', 'main.views.reporte_adeudos'),
-    url(r'^api-rest/condominosOlimpo/(\w+)/(\d+)/$', CondominosOlimpoViewSet.as_view(), name='my_rest_view'),
+    url(r'^api-rest/condominosOlimpo/$', CondominosOlimpoViewSet.as_view(), name='my_rest_view'),
     url(r'^$', 'main.views.home'),
     url(r'^queries/', 'main.views.query_list'),
     url(r'^admin/', include(admin.site.urls)),
