@@ -272,7 +272,7 @@ class MovimientosOlimpoViewSet(APIView):
                    deposito AS DEPOSITO,
                    saldo AS SALDO,
                    olimpo_condomino.depto AS DEPTO,
-                   date_format(fecha,'%%M-%%Y') as MES,
+                   date_format(fecha,'%%m-%%Y') as MES,
                    case when deposito >= 750 and deposito <= 1200 and depto <> "0000" then 'ORDINARIA' 
                         when deposito = 0 then ''
                         when deposito >0 and depto = '0000' then 'SIN IDENTIFICAR'
