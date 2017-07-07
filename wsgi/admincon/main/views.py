@@ -263,7 +263,7 @@ class MovimientosOlimpoViewSet(APIView):
         valorFin = kw['fec_fin']
         #print valor
         query = '''
-             SELECT olimpo_movimiento.id as NUM,
+            SELECT olimpo_movimiento.id as NUM,
                    fecha AS FECHA,
                    tipo_movimiento.descripcion AS TIPO,
                    olimpo_movimiento.descripcion AS DESCRIPCION,
@@ -271,7 +271,14 @@ class MovimientosOlimpoViewSet(APIView):
                    retiro AS RETIRO,
                    deposito AS DEPOSITO,
                    saldo AS SALDO,
-                   olimpo_condomino.depto AS DEPTO
+                   olimpo_condomino.depto AS DEPTO,
+                   date_format(fecha,'%%M-%%Y') as MES,
+                   case when deposito >= 750 and deposito <= 1200 and depto <> "0000" then 'ORDINARIA' 
+                        when deposito = 0 then ''
+                        when deposito >0 and depto = '0000' then 'SIN IDENTIFICAR'
+                        else 'OTRA' end as TIPO_INGRESO,
+                   case when retiro > 0 then 'SERVICIO' else '' end as TIPO_EGRESO,
+                   case when deposito > 0  then round(deposito/1000,0) * 50 else 0 end as ELEVADOR
             FROM olimpo_movimiento,
                  tipo_movimiento,
                  olimpo_condomino,
