@@ -13,7 +13,8 @@ setup(
     author='Daniel Cruz',
     # GETTING-STARTED: set author email (your email):
     author_email='danielcruzmx@hotmail.com',
-    # GETTING-STARTED: set author url (your url):
+    # GETTING-STARTED: set author url (your url):ls
+
     url='http://codigoplusplus.blogspot.com',
     # GETTING-STARTED: define required django version:
     install_requires=[
