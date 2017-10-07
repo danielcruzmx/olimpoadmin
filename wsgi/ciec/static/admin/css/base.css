@@ -786,13 +786,13 @@ table#change-history tbody th {
 
 #header {
     width: 100%;
-    background: #ddd;
-    color: #3f65b7;
+    background: #417690;
+    color: #ffc;
     overflow: hidden;
 }
 
 #header a:link, #header a:visited {
-    color: #3f65b7;
+    color: #fff;
 }
 
 #header a:hover {
@@ -810,7 +810,7 @@ table#change-history tbody th {
 }
 
 #branding h1, #branding h1 a:link, #branding h1 a:visited {
-    color: #3f65b7;
+    color: #f4f379;
 }
 
 #branding h2 {
